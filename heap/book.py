@@ -1,10 +1,10 @@
 # example:
-# [16, 4, 10, 14, 7, 9, 3]
+# [16, 14, 10, 4, 7, 9, 3]
 #
 # tree viz:
 #     16    
-#   4   10  
-# 14 7  9 3 
+#   14   10  
+# 4   7 9  3 
 #
 # idxs:
 #       0
@@ -47,6 +47,12 @@ def build_heap(xs: list[int]):
 def heap_max(heap: list[int]) -> int:
     return heap[0]
 
+def heap_pop(heap: list[int]) -> int:
+    heap[0], heap[-1] = heap[-1], heap[0]
+    max_val = heap.pop()
+    heapify(heap, 0)
+    return max_val
+
 heap = [27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8, 9, 0]
 
 print(heap)
@@ -57,5 +63,13 @@ build_heap(heap)
 #            27
 #      17          10
 #   16    13     9    1
-# 5    7 12 4  8  3  0
+# 5   7 12  4  8  3  0
 print(heap)
+
+heap2 = [3, 4, 7, 9, 10, 14, 16]
+build_heap(heap2)
+# [16, 10, 14, 9, 4, 3, 7]
+print(heap2)
+
+print(heap_pop(heap2))
+print(heap2)
