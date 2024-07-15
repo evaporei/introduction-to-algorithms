@@ -26,23 +26,25 @@ def left(i: int) -> int:
 def right(i: int) -> int:
     return 2 * i + 2
 
-def heapify(heap: list[int], i: int):
+# length was added to support heapsort
+# and because we have no new class in this file
+def heapify(heap: list[int], i: int, length: int):
     l, r = left(i), right(i)
     largest = i
 
-    if l < len(heap) and heap[l] > heap[i]:
+    if l < length and heap[l] > heap[i]:
         largest = l
 
-    if r < len(heap) and heap[r] > heap[largest]:
+    if r < length and heap[r] > heap[largest]:
         largest = r
-    
+
     if largest != i:
         heap[i], heap[largest] = heap[largest], heap[i]
-        heapify(heap, largest)
+        heapify(heap, largest, length)
 
 def build_heap(xs: list[int]):
     for i in reversed(range(len(xs) // 2)):
-        heapify(xs, i)
+        heapify(xs, i, len(xs))
 
 def heap_max(heap: list[int]) -> int:
     return heap[0]
@@ -50,8 +52,17 @@ def heap_max(heap: list[int]) -> int:
 def heap_pop(heap: list[int]) -> int:
     heap[0], heap[-1] = heap[-1], heap[0]
     max_val = heap.pop()
-    heapify(heap, 0)
+    heapify(heap, 0, len(heap))
     return max_val
+
+# breaks heap property, you'll need to heapify again
+def heap_sort(heap: list[int]):
+    length = len(heap)
+    for i in reversed(range(1, len(heap))):
+        heap[0], heap[i] = heap[i], heap[0]
+        length -= 1
+        heapify(heap, 0, length)
+
 
 heap = [27, 17, 3, 16, 13, 10, 1, 5, 7, 12, 4, 8, 9, 0]
 
@@ -72,4 +83,8 @@ build_heap(heap2)
 print(heap2)
 
 print(heap_pop(heap2))
+print(heap2)
+
+heap_sort(heap2)
+# regular sorted list
 print(heap2)
